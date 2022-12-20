@@ -2,13 +2,26 @@ name: Actions Workflow
 
 # on: [push, pull_request]
 on:
+  push:
+    branches:
+      - master
+      - "feature/*" # matches anything that starts with feature/ however does not match feature/exemple/a
+      - "!feature/featC" # this branch will be ignored but it needs to come after the pattern
+    # branches-ignore:
+    tags:
+      - v1.*
+    paths:
+      - "**.js"
+      - "!filename.js"
+    # paths-ignore:
+    #   - "docs/**"
   # push:
   # schedule:
   #   -  cron: "0/30 * * * *"
-  repository_dispatch:
-    types: [build]
-  pull_request:
-    types: [closed, assigned, opened, reopened]
+  # repository_dispatch:
+  #   types: [build]
+  # pull_request:
+  #   types: [closed, assigned, opened, reopened]
 
 jobs:
   run-github-actions:
