@@ -9,7 +9,7 @@ jobs:
         run: | 
           echo ${{ contains('hello', 'll')}}
           echo ${{ startsWith('hello', 'he')}}
-          echo ${{ endWith('hello', 'lo')}}
+          echo ${{ endsWith('hello', 'lo')}}
           echo ${{ format('hello {0} {1} {2}', 'World', '!', '!')}}
   dump_contexts_to_log:
     runs-on: ubuntu-latest
