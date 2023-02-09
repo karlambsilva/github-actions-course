@@ -4,6 +4,7 @@ on: [pull_request]
 
 jobs: 
   run-shell-comand: 
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: echo a string
@@ -11,6 +12,7 @@ jobs:
       # - name: failing echo a string
       #   run: eccho 'Hello World'
       - name: multiline script
+        if: failure()
         run: |
           node -v
           npm -v
