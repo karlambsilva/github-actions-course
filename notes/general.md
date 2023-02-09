@@ -26,6 +26,11 @@ Can have dependency between each other - add tag **needs**
 
 - [Workflow syntax for GitHub Actions - GitHub Docs](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell)
 
+Strategy key should be under the job.
+
+- on the matriz, the jobs runs in parallel. Using the max-parallel, you can limit, the number of parallel jobs at once.
+- fail-fast: true // means that if one job in the matrix fails, the other ones will stop
+
 ## Steps
 
 - If one fails, the next ones are skipped. Unless always () is added.
