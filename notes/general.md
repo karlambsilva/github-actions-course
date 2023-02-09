@@ -29,6 +29,8 @@ Can have dependency between each other - add tag **needs**
 Strategy key should be under the job.
 
 - on the matriz, the jobs runs in parallel. Using the max-parallel, you can limit, the number of parallel jobs at once.
+- has exclude / include (creates a new variable that only exists on that execution)
+- refer a matrix value: ${{ matrix.NAME }}
 - fail-fast: true // means that if one job in the matrix fails, the other ones will stop
 
 ## Steps
