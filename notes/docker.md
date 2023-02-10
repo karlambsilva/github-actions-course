@@ -12,3 +12,5 @@ path to the executable file: type -a node
 
 #!/bin/sh -- indicates which shell script to use
 make script executable: chmod +x script.sh
+
+slack: https://hub.docker.com/r/technosophos/slack-notify/
