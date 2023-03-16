@@ -21,7 +21,7 @@ jobs:
   first-job:
 
     outputs:
-      matrix: ${{ toJSON(steps.set-matrix.outputs.matrix) }}
+      matrix: '${{ toJSON(steps.set-matrix.outputs.matrix) }}'
     runs-on: ubuntu-latest
 
     steps:
