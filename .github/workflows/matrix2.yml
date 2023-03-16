@@ -40,9 +40,9 @@ jobs:
         id: set-matrix
         run: | 
           if [[ "${{ github.event_name}}" == "workflow_dispatch" ]]; then
-            echo "matrix=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
+            echo "matrix='${{ inputs.test-group }}' >> "$GITHUB_OUTPUT"
           else
-            echo "matrix=${{ env.ALL_TEST_GROUPS }}" >> "$GITHUB_OUTPUT"
+            echo "matrix='${{ env.ALL_TEST_GROUPS }}' >> "$GITHUB_OUTPUT"
           fi
       - name: Print output
         run: echo ${{ steps.set-matrix.outputs.matrix }}
@@ -59,7 +59,7 @@ jobs:
     strategy:
       matrix:
         # test-group: ${{ inputs.test-group }}
-        test-group: ${{ needs.first-job.outputs.matrix }}
+        test-group: ${{ fromJson(needs.first-job.outputs.matrix) }}
         # test-group: [A, B, C]
       fail-fast: true
       
