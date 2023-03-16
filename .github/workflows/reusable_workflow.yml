@@ -28,7 +28,7 @@ jobs:
           echo $TEST_GROUP
       - name: Push a random file
         run: | 
-          echo $TEST_GROUP >> files/%date%.txt
+          echo $TEST_GROUP >> files/$TEST_GROUP.txt
       - name: Publish Artifacts
         if: always()
         uses: actions/upload-artifact@v3
