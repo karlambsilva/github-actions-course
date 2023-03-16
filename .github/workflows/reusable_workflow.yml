@@ -1,6 +1,7 @@
 name: Reusable Workflow
 
 on: 
+  push:
   workflow_call:
     # inputs:
     #   test-group:
