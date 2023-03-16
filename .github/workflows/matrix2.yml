@@ -49,14 +49,14 @@ jobs:
           echo 'hellooooo'
           echo ${{ steps.set-matrix.outputs.matrix }}
           echo 'end'
-      - name: Dump steps context (to)
-        env:
-          STEPS_CONTEXT: '${{ toJSON(steps) }}'
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump steps context (from)
-        env:
-          STEPS_CONTEXT2: '${{ fromJSON(steps) }}'
-        run: echo "$STEPS_CONTEXT2"
+      - name: Dump steps context
+        run: |
+          echo '${{ toJSON(steps) }}'
+          echo '${{ fromJSON(toJSON(steps)) }}'
+      # - name: Dump steps context (from)
+      #   env:
+      #     STEPS_CONTEXT2: '${{ fromJSON(steps) }}'
+      #   run: echo "$STEPS_CONTEXT2"
 
 
   second-job:
