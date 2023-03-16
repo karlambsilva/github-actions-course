@@ -31,17 +31,22 @@ jobs:
         # run: echo "test-group=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
         env: 
           TEST_GROUP: ${{ inputs.test_group }}
-        run: echo ${{fromJson(env.TEST_GROUP)}}
+        run: |
+          echo ${{fromJson(env.TEST_GROUP)}}
+          # echo "matrix=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
 
   second-job:
 
     needs: first-job
     runs-on: ubuntu-latest
 
+    env: 
+      MATRIX: ${{ needs.first-job.outputs.matrix || env.TEST_GROUP }}
+
     strategy:
       matrix:
         # test-group: ${{ inputs.test-group }}
-        test-group: ${{fromJson(needs.first-job.outputs.matrix)}}
+        test-group: ${{fromJson(env.MATRIX)}}
         # test-group: [A, B, C]
       fail-fast: true
       
