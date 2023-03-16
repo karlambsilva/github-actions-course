@@ -1,0 +1,66 @@
+name: Defining Matrix During Workflow
+
+on: 
+  workflow_dispatch:
+    inputs:
+      test_group:
+        description: 'Which test groups do you want to run?'
+        required: true
+        type: string
+        default: '["A", "B", "C", "D"]'
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 09 * * *"
+
+env: 
+  TEST_GROUP: '["A", "B", "C", "D"]'
+    
+jobs:
+  first-job:
+
+    # outputs:
+    #   matrix: ${{ steps.set-matrix.outputs.matrix }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Define Test Matrix (workflow_dispatch)
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        # run: echo "test-group=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
+        env: 
+          TEST_GROUP: ${{ inputs.test_group }}
+        run: echo ${{fromJson(env.TEST_GROUP)}}
+
+  # second-job:
+
+  #   needs: first-job
+  #   runs-on: ubuntu-latest
+
+  #   strategy:
+  #     matrix:
+  #       # test-group: ${{ inputs.test-group }}
+  #       test-group: ${{fromJson(env.TEST_GROUP)}}
+  #       # test-group: [A, B, C]
+  #     fail-fast: true
+      
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - name: List Files after checkout
+  #       run: |
+  #         pwd
+  #         ls -a
+  #     - name: Push a random file
+  #       env: 
+  #         CURRENT_TEST_GROUP: ${{ matrix.test-group }}
+  #       run: | 
+  #         echo $CURRENT_TEST_GROUP >> files/$CURRENT_TEST_GROUP.txt
+  #     - name: Publish Artifacts
+  #       if: always()
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: results
+  #         path: files
+  #         retention-days: 2

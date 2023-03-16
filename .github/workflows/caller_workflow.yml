@@ -1,8 +1,9 @@
 name: Caller Workflow
 
 on: 
-  push:
-    
+  # push:
+    pull_request:
+      
 jobs:
 
   call-workflow:
