@@ -40,13 +40,13 @@ jobs:
     needs: first-job
     runs-on: ubuntu-latest
 
-    # env: 
-    #   MATRIX: ${{ fromJson (needs.first-job.outputs.matrix || env.TEST_GROUP) }}
+    env: 
+      MATRIX: ${{ fromJson (needs.first-job.outputs.matrix || env.TEST_GROUP) }}
 
     strategy:
       matrix:
         # test-group: ${{ inputs.test-group }}
-        test-group: ${{ fromJson (needs.first-job.outputs.matrix || env.TEST_GROUP) }}
+        test-group: ${{ fromJson (env.TEST_GROUP) }}
         # test-group: [A, B, C]
       fail-fast: true
       
