@@ -51,8 +51,8 @@ jobs:
           echo 'end'
       - name: Dump steps context
         run: |
-          echo '${{ toJSON(steps) }}'
-          echo '${{ fromJSON(toJSON(steps)) }}'
+          echo '${{ toJSON(steps.set-matrix.outputs.matrix) }}'
+          echo '${{ fromJSON(toJSON(steps.set-matrix.outputs.matrix)) }}'
       # - name: Dump steps context (from)
       #   env:
       #     STEPS_CONTEXT2: '${{ fromJSON(steps) }}'
