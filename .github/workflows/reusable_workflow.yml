@@ -1,7 +1,7 @@
 name: Reusable Workflow
 
 on: 
-  push:
+  # push:
   workflow_call:
     # inputs:
     #   test-group:
@@ -28,6 +28,7 @@ jobs:
           echo $TEST_GROUP
       - name: Push a random file
         run: | 
+          ls
           echo $TEST_GROUP >> files/$TEST_GROUP.txt
       - name: Publish Artifacts
         if: always()
