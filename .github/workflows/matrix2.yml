@@ -15,7 +15,7 @@ on:
     - cron: "0 09 * * *"
 
 env: 
-  TEST_GROUP: '["A", "B", "C", "D"]'
+  ALL_TEST_GROUPS: '["A", "B", "C", "D"]'
     
 jobs:
   first-job:
@@ -25,28 +25,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # - name: Define Test Matrix (workflow_dispatch)
+      #   id: set-matrix
+      #   if: ${{ github.event_name == 'workflow_dispatch' }}
+      #   # run: echo "test-group=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
+      #   env: 
+      #     TEST_GROUP: ${{ inputs.test_group }}
+      #   run: |
+      #     echo ${{fromJson(env.TEST_GROUP)}}
+      #     # echo "matrix=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
+
+
       - name: Define Test Matrix (workflow_dispatch)
         id: set-matrix
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        # run: echo "test-group=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
-        env: 
-          TEST_GROUP: ${{ inputs.test_group }}
-        run: |
-          echo ${{fromJson(env.TEST_GROUP)}}
-          # echo "matrix=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
+        run: | 
+          if [[ "${{ github.event_name}}" == "workflow_dispatch" ]]; then
+            echo "matrix=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "matrix=${{ env.ALL_TEST_GROUPS }}" >> "$GITHUB_OUTPUT"
+          fi
+
 
   second-job:
 
     needs: first-job
     runs-on: ubuntu-latest
 
-    env: 
-      MATRIX: ${{ fromJson (needs.first-job.outputs.matrix || env.TEST_GROUP) }}
+    # env: 
+    #   MATRIX: ${{ fromJson (needs.first-job.outputs.matrix || env.TEST_GROUP) }}
 
     strategy:
       matrix:
         # test-group: ${{ inputs.test-group }}
-        test-group: ${{ fromJson (env.TEST_GROUP) }}
+        test-group: ${{ fromJson (needs.first-job.outputs.matrix) }}
         # test-group: [A, B, C]
       fail-fast: true
       
