@@ -53,7 +53,10 @@ jobs:
         env:
           STEPS_CONTEXT: '${{ toJSON(steps) }}'
         run: echo "$STEPS_CONTEXT"
-
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT2: ${{ steps }}
+        run: echo "$STEPS_CONTEXT2"
 
   second-job:
 
