@@ -25,7 +25,7 @@ jobs:
         # run: echo "test-group=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
         env: 
           TEST_GROUP: ${{ inputs.test-group }}
-        run: echo ${{fromJson( TEST_GROUP )}}
+        run: echo ${{fromJson( $TEST_GROUP )}}
 
   second-job:
 
@@ -35,7 +35,7 @@ jobs:
     strategy:
       matrix:
         # test-group: ${{ inputs.test-group }}
-        test-group: ${{fromJson( TEST_GROUP )}}
+        test-group: ${{fromJson( $TEST_GROUP )}}
         # test-group: [A, B, C]
       fail-fast: true
       
