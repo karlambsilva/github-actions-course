@@ -3,10 +3,11 @@ name: Reusable Workflow
 on: 
   # push:
   workflow_call:
-    # inputs:
-    #   test-group:
-    #     required: true
-    #     type: string
+    inputs:
+      test-group:
+        required: true
+        default: '["A", "B", "C", "D"]'
+        type: string
     
 jobs:
   first-job:
@@ -14,7 +15,8 @@ jobs:
     strategy:
       matrix:
         # test-group: ${{ inputs.test-group }}
-        test-group: [A, B, C]
+        test-group: ${{ fromJSON(inputs.test-group)}}
+        # test-group: [A, B, C]
       fail-fast: true
     runs-on: ubuntu-latest
 

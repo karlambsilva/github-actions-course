@@ -7,5 +7,5 @@ jobs:
 
   call-workflow:
     uses: ./.github/workflows/reusable_workflow.yml
-    # with:
-    #   test-group: BACKOFFICE
+    with:
+      test-group: '["D", "B"]'
