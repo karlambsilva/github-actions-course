@@ -22,7 +22,9 @@ jobs:
       TEST_GROUP: ${{ matrix.test-group }}
 
     steps:
-      - name: List Files
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: List Files after checkout
         run: |
           pwd
           ls -a
@@ -32,7 +34,7 @@ jobs:
           echo $TEST_GROUP
       - name: Push a random file
         run: | 
-          echo $TEST_GROUP >> /files/$TEST_GROUP.txt
+          echo $TEST_GROUP >> files/$TEST_GROUP.txt
       - name: Publish Artifacts
         if: always()
         uses: actions/upload-artifact@v3
