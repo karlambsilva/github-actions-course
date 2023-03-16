@@ -7,7 +7,7 @@ on:
         description: 'Which test groups do you want to run?'
         required: true
         type: string
-        default: '["A", "B", "C", "D"]'
+        default: "[\"A\", \"B\", \"C\", \"D\"]"
   push:
     # branches:
       # - main
@@ -15,7 +15,7 @@ on:
     - cron: "0 09 * * *"
 
 env: 
-  ALL_TEST_GROUPS: '["A", "B", "C", "D"]'
+  ALL_TEST_GROUPS: "[\"A\", \"B\", \"C\", \"D\"]"
     
 jobs:
   first-job:
@@ -40,9 +40,9 @@ jobs:
         id: set-matrix
         run: | 
           if [[ "${{ github.event_name}}" == "workflow_dispatch" ]]; then
-            echo "matrix='${{ inputs.test-group }}' >> "$GITHUB_OUTPUT"
+            echo "matrix=${{ inputs.test-group }} >> "$GITHUB_OUTPUT"
           else
-            echo "matrix='${{ env.ALL_TEST_GROUPS }}' >> "$GITHUB_OUTPUT"
+            echo "matrix=${{ env.ALL_TEST_GROUPS }} >> "$GITHUB_OUTPUT"
           fi
       - name: Print output
         run: echo ${{ steps.set-matrix.outputs.matrix }}
