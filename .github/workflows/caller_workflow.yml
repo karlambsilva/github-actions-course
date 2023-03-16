@@ -6,6 +6,6 @@ on:
 jobs:
 
   call-workflow:
-    uses: ./.github/workflows/reusable-workflow.yml
+    uses: ./.github/workflows/reusable_workflow.yml
     # with:
     #   test-group: BACKOFFICE
