@@ -37,30 +37,33 @@ jobs:
     needs: first-job
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        # test-group: ${{ inputs.test-group }}
-        test-group: ${{fromJson(env.TEST_GROUP)}}
-        # test-group: [A, B, C]
-      fail-fast: true
+    # strategy:
+    #   matrix:
+    #     # test-group: ${{ inputs.test-group }}
+    #     test-group: ${{fromJson(env.TEST_GROUP)}}
+    #     # test-group: [A, B, C]
+    #   fail-fast: true
       
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: List Files after checkout
-        run: |
-          pwd
-          ls -a
-      - name: Push a random file
-        env: 
-          CURRENT_TEST_GROUP: ${{ matrix.test-group }}
-        run: | 
-          echo $CURRENT_TEST_GROUP >> files/$CURRENT_TEST_GROUP.txt
-      - name: Publish Artifacts
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: results
-          path: files
-          retention-days: 2
+      - name: List current env.TEST_GROUP
+        run: echo ${{fromJson(env.TEST_GROUP)}}
+
+      # - name: Checkout
+      #   uses: actions/checkout@v3
+      # - name: List Files after checkout
+      #   run: |
+      #     pwd
+      #     ls -a
+      # - name: Push a random file
+      #   env: 
+      #     CURRENT_TEST_GROUP: ${{ matrix.test-group }}
+      #   run: | 
+      #     echo $CURRENT_TEST_GROUP >> files/$CURRENT_TEST_GROUP.txt
+      # - name: Publish Artifacts
+      #   if: always()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: results
+      #     path: files
+      #     retention-days: 2
