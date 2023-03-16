@@ -15,13 +15,14 @@ on:
     - cron: "0 09 * * *"
 
 env: 
-  ALL_TEST_GROUPS: '["A", "B"]'
+  # ALL_TEST_GROUPS: '["A", "B"]'
+  ALL_TEST_GROUPS: "['A', 'B']"
     
 jobs:
   first-job:
 
     outputs:
-      matrix: '${{ toJSON(steps.set-matrix.outputs.matrix) }}'
+      matrix: '${{ steps.set-matrix.outputs.matrix }}'
     runs-on: ubuntu-latest
 
     steps:
@@ -40,9 +41,9 @@ jobs:
         id: set-matrix
         run: | 
           if [[ ${{ github.event_name}} == "workflow_dispatch" ]]; then
-            echo "::set-output name=matrix::${{ inputs.test_group }}" >> $GITHUB_OUTPUT
+            echo "matrix=${{ inputs.test_group }}" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=matrix::${{ env.ALL_TEST_GROUPS }}"
+            echo "matrix=${{ env.ALL_TEST_GROUPS }}" >> $GITHUB_OUTPUT
           fi
       - name: Print output
         run: |
@@ -70,7 +71,7 @@ jobs:
     strategy:
       matrix:
         # test-group: ${{ inputs.test-group }}
-        test-group: ${{ fromJson(needs.first-job.outputs.matrix) }}
+        test-group: ${{ fromJSON(needs.first-job.outputs.matrix) }}
         # test-group: [A, B, C]
       fail-fast: true
       
