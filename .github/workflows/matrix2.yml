@@ -44,6 +44,8 @@ jobs:
           else
             echo "matrix=${{ env.ALL_TEST_GROUPS }}" >> "$GITHUB_OUTPUT"
           fi
+      - name: Print output
+        run: echo ${{ steps.set-matrix.outputs.matrix }}
 
 
   second-job:
