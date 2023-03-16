@@ -40,7 +40,7 @@ jobs:
         id: set-matrix
         run: | 
           if [[ "${{ github.event_name}}" == "workflow_dispatch" ]]; then
-            echo "matrix=${{ inputs.test-group }} >> "$GITHUB_OUTPUT"
+            echo "matrix=${{ inputs.test_group }} >> "$GITHUB_OUTPUT"
           else
             echo "matrix=${{ env.ALL_TEST_GROUPS }} >> "$GITHUB_OUTPUT"
           fi
