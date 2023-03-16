@@ -22,14 +22,17 @@ jobs:
       TEST_GROUP: ${{ matrix.test-group }}
 
     steps:
+      - name: List Files
+        run: |
+          pwd
+          ls -a
       - name: Print something to the console
         run: | 
           echo 'Helloooo'
           echo $TEST_GROUP
       - name: Push a random file
         run: | 
-          ls -la
-          echo $TEST_GROUP >> files/$TEST_GROUP.txt
+          echo $TEST_GROUP >> /files/$TEST_GROUP.txt
       - name: Publish Artifacts
         if: always()
         uses: actions/upload-artifact@v3
