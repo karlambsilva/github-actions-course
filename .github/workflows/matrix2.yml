@@ -21,7 +21,7 @@ jobs:
   first-job:
 
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      matrix: ${{ toJSON(steps.set-matrix.outputs.matrix) }}
     runs-on: ubuntu-latest
 
     steps:
@@ -70,7 +70,7 @@ jobs:
     strategy:
       matrix:
         # test-group: ${{ inputs.test-group }}
-        test-group: ${{ needs.first-job.outputs.matrix }}
+        test-group: ${{ fromJson(needs.first-job.outputs.matrix) }}
         # test-group: [A, B, C]
       fail-fast: true
       
