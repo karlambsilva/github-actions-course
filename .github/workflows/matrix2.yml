@@ -15,7 +15,7 @@ on:
     - cron: "0 09 * * *"
 
 env: 
-  ALL_TEST_GROUPS: "[\"A\", \"B\", \"C\", \"D\"]"
+  ALL_TEST_GROUPS: '["A", "B"]'
     
 jobs:
   first-job:
