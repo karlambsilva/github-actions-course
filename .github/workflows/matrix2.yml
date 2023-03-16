@@ -39,13 +39,16 @@ jobs:
       - name: Define Test Matrix (workflow_dispatch)
         id: set-matrix
         run: | 
-          if [[ "${{ github.event_name}}" == "workflow_dispatch" ]]; then
+          if [[ ${{ github.event_name}} == "workflow_dispatch" ]]; then
             echo "matrix=${{ inputs.test_group }} >> "$GITHUB_OUTPUT"
           else
             echo "matrix=${{ env.ALL_TEST_GROUPS }} >> "$GITHUB_OUTPUT"
           fi
       - name: Print output
-        run: echo ${{ steps.set-matrix.outputs.matrix }}
+        run: |
+          echo 'hellooooo'
+          echo ${{ steps.set-matrix.outputs.matrix }}
+          echo 'end'
 
 
   second-job:
