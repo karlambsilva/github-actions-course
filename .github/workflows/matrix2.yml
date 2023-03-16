@@ -20,12 +20,13 @@ env:
 jobs:
   first-job:
 
-    # outputs:
-    #   matrix: ${{ steps.set-matrix.outputs.matrix }}
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Define Test Matrix (workflow_dispatch)
+        id: set-matrix
         if: ${{ github.event_name == 'workflow_dispatch' }}
         # run: echo "test-group=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
         env: 
@@ -37,17 +38,17 @@ jobs:
     needs: first-job
     runs-on: ubuntu-latest
 
-    # strategy:
-    #   matrix:
-    #     # test-group: ${{ inputs.test-group }}
-    #     test-group: ${{fromJson(env.TEST_GROUP)}}
-    #     # test-group: [A, B, C]
-    #   fail-fast: true
+    strategy:
+      matrix:
+        # test-group: ${{ inputs.test-group }}
+        test-group: ${{fromJson(needs.first-job.outputs.matrix)}}
+        # test-group: [A, B, C]
+      fail-fast: true
       
 
     steps:
       - name: List current env.TEST_GROUP
-        run: echo ${{fromJson(env.TEST_GROUP)}}
+        run: echo ${{ matrix.test-group }}
 
       # - name: Checkout
       #   uses: actions/checkout@v3
