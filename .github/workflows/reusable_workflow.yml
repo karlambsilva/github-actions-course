@@ -10,25 +10,23 @@ on:
         type: string
 
 env: 
-  ALL_TEST_GROUP: '["A", "B", "C", "D"]'
+  TEST_GROUP: '["A", "B", "C", "D"]'
     
 jobs:
   first-job:
 
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    # outputs:
+    #   matrix: ${{ steps.set-matrix.outputs.matrix }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Define Test Matrix (workflow_dispatch)
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        id: set-matrix
-        run: echo "test-group=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
-      - name: Define Test Matrix (push and schedule)
-        if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
-        id: set-matrix
-        run: echo "test-group=${ ALL_TEST_GROUP }" >> "$GITHUB_OUTPUT"
-  
+        # run: echo "test-group=${{ inputs.test-group }}" >> "$GITHUB_OUTPUT"
+        env: 
+          TEST_GROUP: ${{ inputs.test-group }}
+        run: echo ${{fromJson( ${TEST_GROUP} )}}
+
   second-job:
 
     needs: first-job
@@ -37,7 +35,7 @@ jobs:
     strategy:
       matrix:
         # test-group: ${{ inputs.test-group }}
-        test-group: ${{fromJson(needs.first-job.outputs.matrix)}}
+        test-group: ${{fromJson( ${TEST_GROUP} )}}
         # test-group: [A, B, C]
       fail-fast: true
       
